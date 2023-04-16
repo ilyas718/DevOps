@@ -1,9 +1,10 @@
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: my-first-deployment
+  name: myapp
 spec:
-  replicas: 1
+  replicas: 3 
   selector:
     matchLabels:
       app: my-app
@@ -13,13 +14,13 @@ spec:
         app: my-app
     spec:
       containers:
-        - name: my-first-app
-          image: 534626096554.dkr.ecr.us-east-1.amazonaws.com/webapp
-          imagePullPolicy: Always
-          ports:
-          - containerPort: 80
+      - name: myapp
+        image: 534626096554.dkr.ecr.us-east-1.amazonaws.com/myapp:latest
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 80
       imagePullSecrets:
-      - name: ecr-credentials
+      - name: ecr-registry
 ---
 apiVersion: v1
 kind: Service
