@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: myappv1
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: myappv1
+  template:
+    metadata:
+      labels:
+        app: myappv1
+    spec:
+      containers:
+      - name: myappv1
+        image: 534626096554.dkr.ecr.us-east-1.amazonaws.com/myapp:v1
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 80
+      imagePullSecrets:
+          - name: v1-secret
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: myappv1-service
+spec:
+  selector:
+    app: myappv1
+  type: LoadBalancer
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+      nodePort: 30007
